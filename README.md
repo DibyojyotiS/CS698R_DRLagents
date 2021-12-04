@@ -18,8 +18,7 @@ The agents implemented here are:
     - And the Prioritized Experience Replay (PER)
     - Can set Prioritized mode by inserting 'PER' in the bufferType example:
         ``` python
-        ReplayBuffer(bufferSize, bufferType = 'PER-D3QN', priority_alpha=alpha, 
-                     priority_beta=beta, priority_beta_rate=beta_rate)
+        ReplayBuffer(bufferSize, bufferType = 'PER-D3QN', priority_alpha=alpha, priority_beta=beta, priority_beta_rate=beta_rate)
         ```
 
 2. Exploration Strategies: 

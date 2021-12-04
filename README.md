@@ -8,6 +8,9 @@ The agents implemented here are:
 3. Double DQN (DDQN)
 4. Dueling DDQN (D3QN)
 5. Dueling DDQN with Prioritized Experience Replay (D3QN_PER)
+``` python 
+from DRLagents import NFQ, DQN, DDQN, D3QN, D3QN_PER
+```
 
 ## Other utils
 1. Replay Buffer:

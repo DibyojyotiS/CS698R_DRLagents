@@ -5,9 +5,8 @@ from torch import nn
 from torch import optim
 import torch.nn.functional as F
 
-
-from agents import D3QN_PER
-from agents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
+from DRLagents import D3QN_PER
+from DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
 
 # make a gym environment
 env = gym.make('CartPole-v0')
@@ -43,6 +42,7 @@ dueling_network = net(inDim=4, outDim=2, hDim=[8,8], activation=F.relu).to(devic
 # create the exploration and exploitation strategies
 explorationStrategyTrain = decayWrapper(selectEpsilonGreedyAction, 0.5, 0.05, 500, device=device)
 D3QN_PERagent = D3QN_PER(dueling_network, env, 1, 0.8, 0.1, 0.5, 0.1, 0.01, 10, 10000, 512, optim.RMSprop, 0.001, 300, 1, explorationStrategyTrain, selectGreedyAction, 5, device)
+
 
 # train the agent and evaluate
 train_stats = D3QN_PERagent.trainAgent()

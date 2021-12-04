@@ -1,5 +1,8 @@
 # Deep-RL
 A repo for my deep RL agents!
+```
+pip install -e DRLagents
+```
 
 ## Agents
 The agents implemented here are:

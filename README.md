@@ -10,10 +10,10 @@ The agents implemented here are:
 5. Dueling DDQN with Prioritized Experience Replay (D3QN_PER)
 
 ## Other utils
-1. PER Buffer
+1. Replay Buffer
 More over there is the replay buffer, which implements the Usual experience replay as well as the Prioritized Experience Replay (PER)
 
-2. Exploration Strategies:
+2. Exploration Strategies: '''DRLagents.exploration_strategies'''
     - Greedy Exploration
     - Epsilon-Greedy Exploration
     - Softmax Exploration

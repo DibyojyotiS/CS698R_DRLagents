@@ -39,9 +39,12 @@ Qnetwork = net(inDim=4, outDim=2, hDim=[8,8], activation=F.relu).to(device)
 
 # create the exploration and exploitation strategies
 explorationStrategyTrain = decayWrapper(selectEpsilonGreedyAction, 0.5, 0.05, 500, device=device)
-DQNagent = DQN(Qnetwork, env, 0, 0.8, 10, 10000, 512, optim.Adam, 0.001, 800, 1, explorationStrategyTrain, selectGreedyAction, 5, device=device)
+DQNagent = DQN(Qnetwork, env, seed=0, gamma=0.8, epochs=10, bufferSize=10000, batchSize=512, 
+                optimizerFn=optim.Adam, optimizerLR=0.001, MAX_TRAIN_EPISODES=800, MAX_EVAL_EPISODES=1, 
+                explorationStrategyTrainFn= explorationStrategyTrain, explorationStrategyEvalFn= selectGreedyAction, 
+                updateFrequency=5, device=device)
 
-
+                
 # train the agent and evaluate
 train_stats = DQNagent.trainAgent()
 eval_rewards = DQNagent.evaluateAgent()
@@ -58,3 +61,9 @@ for i_episode in range(5):
             print("Episode finished after {} timesteps".format(t+1))
             break
 env.close()
+
+# for readme example
+# DQN(Qnetwork, env, seed=0, gamma=0.8, epochs=10, bufferSize=10000, batchSize=512, 
+#     optimizerFn=optim.Adam, optimizerLR=0.001, MAX_TRAIN_EPISODES=800, MAX_EVAL_EPISODES=1, 
+#     explorationStrategyTrainFn= explorationStrategyTrain, explorationStrategyEvalFn= selectGreedyAction, 
+#     updateFrequency=5, device=device)

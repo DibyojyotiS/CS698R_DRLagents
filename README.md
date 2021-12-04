@@ -10,15 +10,30 @@ The agents implemented here are:
 5. Dueling DDQN with Prioritized Experience Replay (D3QN_PER)
 
 ## Other utils
-1. Replay Buffer
-More over there is the replay buffer, which implements the Usual experience replay as well as the Prioritized Experience Replay (PER)
+1. Replay Buffer:
+    ``` python
+    from DRLagents.replaybuffer import ReplayBuffer
+    ```
+    - Implements both usual experience replay (as in DQN)
+    - And the Prioritized Experience Replay (PER)
+    - Can set Prioritized mode by inserting 'PER' in the bufferType example:
+        ``` python
+        ReplayBuffer(bufferSize, bufferType = 'PER-D3QN', priority_alpha=alpha, 
+                     priority_beta=beta, priority_beta_rate=beta_rate)
+        ```
 
-2. Exploration Strategies: '''DRLagents.exploration_strategies'''
+2. Exploration Strategies: 
+    ``` python
+    from DRLagents.exploration_strategies import selectEpsilonGreedyAction, selectGreedyAction, selectSoftMaxAction
+    ```
     - Greedy Exploration
     - Epsilon-Greedy Exploration
     - Softmax Exploration
 
 3. Decay Wrapper:
+    ``` python
+    from DRLagents.exploration_strategies import decayWrapper
+    ```
     - Allows to decay the epsion (in case of epsilon-greedy strategy) 
     - or the temperature (in case of softmax strategy) parameters.
 

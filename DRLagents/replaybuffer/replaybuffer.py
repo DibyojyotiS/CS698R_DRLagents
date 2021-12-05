@@ -80,13 +80,14 @@ class ReplayBuffer():
 
 
 
-    def update(self, indices, priorities):
+    def update(self, indices, newpriorities):
         #this is mainly used for PER-DDQN
         #otherwise just have a pass in this method
         #this function does not return anything
         if not self.isPriorityBuffer: return
-        for idx, priority in zip(indices, priorities):
-            self.buffer[idx] = priority
+        newpriorities = torch.abs(newpriorities)
+        for idx, newpriority in zip(indices, newpriorities):
+            self.priorities[idx] = newpriority.item() + 0.000000001
 
 
 
@@ -144,7 +145,7 @@ class ReplayBuffer():
         dones = torch.cat(experiencesList[4]).to(device) 
 
         if self.isPriorityBuffer:
-            importance_weights = torch.tensor([importance_weights], dtype=torch.int, device=device).view(-1,1)
+            importance_weights = torch.tensor([importance_weights], device=device).view(-1,1)
             return states, actions, rewards, nextStates, dones, importance_weights, sample_idx
 
         return states, actions, rewards, nextStates, dones

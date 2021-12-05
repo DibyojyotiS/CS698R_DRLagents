@@ -15,7 +15,7 @@ The agents implemented here are:
 from DRLagents import NFQ, DQN, DDQN, D3QN, D3QN_PER
 ```
 For each agent you can define a function to make the observable state from the observation and info returned by env.step(), the
-parameter stateFn allows this functionality. Heads-up, you will also need to handle the case when info = None because env.reset() 
+parameter stateFn allows this functionality. Heads-up, you will also need to handle the case when ```info = None``` because env.reset() 
 returns only the observation.
 
 ## Other utils

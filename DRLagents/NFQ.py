@@ -13,7 +13,10 @@ class NFQ():
                  MAX_TRAIN_EPISODES, MAX_EVAL_EPISODES,
                  explorationStrategyTrainFn, 
                  explorationStrategyEvalFn,
-                 device = torch.device('cpu')):
+                 device = torch.device('cpu'),
+                 stateFn= lambda observation,info: observation, # function of observation and info, returns a state (so you can use info from .step())
+                 printFrequency=50 
+                ):
         
         # NOTE: explorationStrategyTrainFn and explorationStrategyEvalFn take the arguments net, state, episode(optional) in that order
         # 1. creates and initializes (with seed) the environment, train/eval episodes, gamma, etc. 
@@ -27,6 +30,8 @@ class NFQ():
         self.gamma, self.epochs, self.bufferSize, self.batchSize = gamma, epochs, bufferSize, batchSize
         self.MAX_TRAIN_EPISODES, self.MAX_EVAL_EPISODES = MAX_TRAIN_EPISODES, MAX_EVAL_EPISODES
         self.device = device
+        self.printFrequency = printFrequency
+        self.stateFn = stateFn
 
         # init the book keeping
         self.initBookKeeping()
@@ -84,7 +89,7 @@ class NFQ():
             self.totalStepsBook.append(self.totalSteps)
             self.trainTimeList.append(self.cputime)
             self.wallClockTimeList.append(self.wallclocktime)
-            if self.episode%50 == 0: print(f"episode: {self.episode} reward: {self.trainreward}")
+            if self.episode%self.printFrequency == 0: print(f"episode: {self.episode} reward: {self.trainreward}")
         else:
             self.evalRewardsList.append(self.evalreward)
 
@@ -118,9 +123,11 @@ class NFQ():
         for episode in range(self.MAX_TRAIN_EPISODES):
             
             self.episode = episode
-            state = self.env.reset()
+            observation = self.env.reset()
+            state = self.stateFn(observation, None)
 
-            self.rBuffer.collectExperiences(self.env, state, self.explorationStrategyTrainFn, countExperiences=None, net = self.Qnetwork, device=self.device)
+            self.rBuffer.collectExperiences(self.env, state, self.stateFn, self.explorationStrategyTrainFn,
+                                            countExperiences=None, net = self.Qnetwork, device= self.device)
             if self.rBuffer.length() < self.batchSize: continue # spik episode if number of samples is less than batch size
 
             experiences = self.rBuffer.sample(self.batchSize)
@@ -169,20 +176,25 @@ class NFQ():
 
 
 
-    def evaluateAgent(self):
+    def evaluateAgent(self, render=False):
         #this function evaluates the agent using the value network, it evaluates agent for MAX_EVAL_EPISODES
         #typcially MAX_EVAL_EPISODES = 1
         
         finalEvalRewardsList = []
         for evalepisode in range(self.MAX_EVAL_EPISODES):
-            state = self.env.reset()
+
+            observation = self.env.reset()
+            info = None
+
             done = False
             total_reward = 0
             self.episode = evalepisode # self.episode will be overwritten in training loop ok to use here
             while not done:
+                state = self.stateFn(observation, info)
                 action = self.explorationStrategyEvalFn(self.Qnetwork, torch.tensor([state], dtype=torch.float32, device=self.device))
-                state, reward, done, _ = self.env.step(action.item())
+                observation, reward, done, info = self.env.step(action.item())
                 total_reward += reward
+                if render: self.env.render()
             finalEvalRewardsList.append(total_reward)
         
         self.evalreward = total_reward/self.MAX_EVAL_EPISODES   

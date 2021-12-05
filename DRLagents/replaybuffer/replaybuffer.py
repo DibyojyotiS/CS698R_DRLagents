@@ -37,7 +37,7 @@ class ReplayBuffer():
     
 
 
-    def collectExperiences(self, env, state, explorationStrategy, countExperiences, net, device):
+    def collectExperiences(self, env, state, stateFn, explorationStrategy, countExperiences, net, device):
         #this method allows the agent to interact with the environment starting from a state and it collects
         #experiences during the interaction, it uses network to get the value function and uses exploration strategy
         #to select action. It collects countExperiences and in case the environment terminates before that it returns
@@ -53,8 +53,8 @@ class ReplayBuffer():
         while not done:
             steps += 1
             action = explorationStrategy(net, torch.tensor([state], dtype=torch.float32, device=device))
-            newState, reward, done, info = env.step(action.item())
-            # newState = newState.flatten()
+            newObservation, reward, done, info = env.step(action.item())
+            newState = stateFn(newObservation, info) # get the state from a user defined combination of observation and info
 
             # collect only the first countExperiences as asked
             if countExperiences is None or steps <= countExperiences:

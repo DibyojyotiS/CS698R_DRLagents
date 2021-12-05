@@ -84,7 +84,7 @@ class ReplayBuffer():
         #this is mainly used for PER-DDQN
         #otherwise just have a pass in this method
         #this function does not return anything
-        if self.isPriorityBuffer: return
+        if not self.isPriorityBuffer: return
         for idx, priority in zip(indices, priorities):
             self.buffer[idx] = priority
 

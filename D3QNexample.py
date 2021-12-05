@@ -5,8 +5,8 @@ from torch import nn
 from torch import optim
 import torch.nn.functional as F
 
-from DRLagents import D3QN
-from DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
+from CS698R_DRLagents import D3QN
+from CS698R_DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
 
 
 # make a gym environment

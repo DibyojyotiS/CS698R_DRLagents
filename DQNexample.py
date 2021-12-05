@@ -6,8 +6,8 @@ from torch import optim
 import torch.nn.functional as F
 
 
-from DRLagents import DQN
-from DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
+from CS698R_DRLagents import DQN
+from CS698R_DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
 
 # make a gym environment
 env = gym.make('CartPole-v0')

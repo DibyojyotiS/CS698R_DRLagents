@@ -1,7 +1,7 @@
 # Deep-RL
 A repo for my deep RL agents!
 ```
-pip install -e CS698R_DRLagents
+pip install -e DRLagents
 ```
 
 ## Agents
@@ -12,7 +12,7 @@ The agents implemented here are:
 4. Dueling DDQN (D3QN)
 5. Dueling DDQN with Prioritized Experience Replay (D3QN_PER)
 ``` python 
-from CS698R_DRLagents import NFQ, DQN, DDQN, D3QN, D3QN_PER
+from DRLagents import NFQ, DQN, DDQN, D3QN, D3QN_PER
 ```
 For each agent you can optionally define a function to make the observable state from the observation and info returned by env.step(), the
 parameter stateFn allows this functionality. Heads-up, you will also need to handle the case when ```info = None``` because env.reset() 
@@ -21,7 +21,7 @@ returns only the observation.
 ## Other utils
 1. Replay Buffer:
     ``` python
-    from CS698R_DRLagents.replaybuffer import ReplayBuffer
+    from DRLagents.replaybuffer import ReplayBuffer
     ```
     - Implements both usual experience replay (as in DQN)
     - And the Prioritized Experience Replay (PER)
@@ -32,7 +32,7 @@ returns only the observation.
 
 2. Exploration Strategies: 
     ``` python
-    from CS698R_DRLagents.exploration_strategies import selectEpsilonGreedyAction, selectGreedyAction, selectSoftMaxAction
+    from DRLagents.exploration_strategies import selectEpsilonGreedyAction, selectGreedyAction, selectSoftMaxAction
     ```
     - Greedy Exploration
     - Epsilon-Greedy Exploration
@@ -40,7 +40,7 @@ returns only the observation.
 
 3. Decay Wrapper:
     ``` python
-    from CS698R_DRLagents.exploration_strategies import decayWrapper
+    from DRLagents.exploration_strategies import decayWrapper
     ```
     - Allows to decay the epsion (in case of epsilon-greedy strategy) 
     - or the temperature (in case of softmax strategy) parameters.
@@ -50,8 +50,8 @@ The following code snippet shows how you train a deep network (torch's nn.Module
 ``` python
 import gym
 ...
-from CS698R_DRLagents import D3QN
-from CS698R_DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
+from DRLagents import D3QN
+from DRLagents.exploration_strategies import decayWrapper, selectEpsilonGreedyAction, selectGreedyAction
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

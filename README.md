@@ -1,5 +1,5 @@
 # Deep-RL
-A repo for my deep RL agents!
+A repo for my deep RL agents from the course CS698R in IITK !
 ```
 pip install -e DRLagents
 ```
